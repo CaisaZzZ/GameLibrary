@@ -6,6 +6,24 @@
     <title>Game Library</title>
 </head>
 <body>
+    <p>Home | Library | Log In/Log out</p>
 
+    <table>
+        <tr>
+            <th>Name |</th>
+            <th>Release Year |</th>
+            <th>Developer |</th>
+            <th>User Rating |</th>
+            <th>Price |</th>
+            <th></th>
+        </tr>
+        <tr th:each = "game : ${games}">
+            <td th:text="${game.name}"></td>
+            <td th:text="${game.releaseYear}"></td>
+            <td th:text="${game.developer}"></td>
+            <td th:text="${game.rating}"></td>
+            <td th:text="${game.price}"></td>
+        </tr>
+    </table>
 </body>
 </html>
