@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Game {
@@ -16,6 +18,11 @@ public class Game {
     private String developer;
     private Double rating;
     private Double price;
+
+    //linking game and genre
+    @ManyToOne
+    @JoinColumn(name = "genreid")
+    private Genre genre;
 
     //Consructor
     public Game(String name, String releaseYear, String developer, Double rating, Double price) {
@@ -80,10 +87,18 @@ public class Game {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "Game [name=" + name + ", platform=" + ", releaseYear=" + releaseYear + ", developer="
-                + developer + ", rating=" + rating + ", price=" + price + "]";
+    //Genre
+    public Genre getGenre(){
+        return genre;
     }
 
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        return "Game [name=" + name + ", releaseYear=" + releaseYear + ", developer=" + developer + ", rating=" + rating
+                + ", price=" + price + ", genre=" + genre + "]";
+    }
 }
