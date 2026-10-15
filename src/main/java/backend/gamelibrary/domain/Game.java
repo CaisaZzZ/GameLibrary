@@ -1,11 +1,16 @@
 package backend.gamelibrary.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 
 @Entity
 public class Game {
@@ -19,10 +24,28 @@ public class Game {
     private Double rating;
     private Double price;
 
+
+
     //linking game and genre
     @ManyToOne
     @JoinColumn(name = "genreid")
     private Genre genre;
+
+    //linking game and platform
+    @ManyToMany
+    @JoinTable(name = "game_platform",
+        joinColumns = @JoinColumn(name="game_id", referencedColumnName= "id"),
+        inverseJoinColumns= @JoinColumn(name="platform_id", referencedColumnName="platformid"))
+    private Set<Platform> platforms = new HashSet<>();
+
+    //getter and setter for Platform joined table
+    public Set<Platform> getPlatforms(){
+        return platforms;
+    }
+
+    public void setPlatforms(Set<Platform> platforms) {
+        this.platforms = platforms;
+    }
 
     //Consructor
     public Game(String name, String releaseYear, String developer, Double rating, Double price) {

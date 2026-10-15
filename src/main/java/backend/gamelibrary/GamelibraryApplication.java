@@ -9,7 +9,8 @@ import backend.gamelibrary.domain.Game;
 import backend.gamelibrary.domain.GameRepository;
 import backend.gamelibrary.domain.Genre;
 import backend.gamelibrary.domain.GenreRepository;
-
+import backend.gamelibrary.domain.Platform;
+import backend.gamelibrary.domain.PlatformRepository;
 
 @SpringBootApplication
 public class GamelibraryApplication {
@@ -19,7 +20,7 @@ public class GamelibraryApplication {
 	}
 
     @Bean
-    public CommandLineRunner demo(GameRepository repository, GenreRepository genreRepository) {
+    public CommandLineRunner demo(GameRepository repository, GenreRepository genreRepository, PlatformRepository platformRepository) {
         return (args) -> {
 
             //test data
@@ -32,6 +33,16 @@ public class GamelibraryApplication {
             genreRepository.save(RPG);
             genreRepository.save(Sandbox);
             genreRepository.save(FPS);
+
+            //PLATFORM
+
+            Platform PC = new Platform("PC");
+            Platform PS5 = new Platform("PS5");
+            Platform XBOX = new Platform("XBOX");
+
+            platformRepository.save(PC);
+            platformRepository.save(PS5);
+            platformRepository.save(XBOX);
 
             //GAMES
             Game a = new Game(
@@ -55,7 +66,10 @@ public class GamelibraryApplication {
                 5.5,
                 0.0 );
 
-            //setting the Genres
+            //Genres and Platforms for test Games
+            a.getPlatforms().add(PC);
+            a.getPlatforms().add(PS5);
+            a.getPlatforms().add(XBOX);
 
             a.setGenre(RPG);
             b.setGenre(Sandbox);

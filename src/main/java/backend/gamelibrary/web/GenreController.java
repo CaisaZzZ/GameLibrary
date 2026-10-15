@@ -2,7 +2,6 @@ package backend.gamelibrary.web;
 
 import org.springframework.stereotype.Controller;
 
-import backend.gamelibrary.domain.Genre;
 import backend.gamelibrary.domain.GenreRepository;
 
 @Controller
@@ -13,5 +12,4 @@ public class GenreController {
     public GenreController(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
-
 }
