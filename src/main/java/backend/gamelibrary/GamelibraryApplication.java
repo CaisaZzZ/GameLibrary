@@ -71,6 +71,10 @@ public class GamelibraryApplication {
             a.getPlatforms().add(PS5);
             a.getPlatforms().add(XBOX);
 
+            b.getPlatforms().add(PC);
+
+            c.getPlatforms().add(PC);
+
             a.setGenre(RPG);
             b.setGenre(Sandbox);
             c.setGenre(FPS);
@@ -81,5 +85,4 @@ public class GamelibraryApplication {
 
         };
     }
-
 }

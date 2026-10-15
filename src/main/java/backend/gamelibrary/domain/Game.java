@@ -8,9 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Game {
@@ -23,8 +23,6 @@ public class Game {
     private String developer;
     private Double rating;
     private Double price;
-
-
 
     //linking game and genre
     @ManyToOne

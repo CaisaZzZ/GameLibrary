@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="fi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Library</title>
 </head>
+
 <body>
-    <a th:href ="@{/frontpage}">Home</a>
+    <a th:href="@{/frontpage}">Home</a>
     <p>| Library | Log In/Log out</p>
-    <p>Categories | Platform | Raiting | Alphabet</p>
+    <p>Categories | Platform | Rating | Alphabet</p>
 
     <table>
         <tr>
@@ -18,17 +20,20 @@
             <th>User Rating |</th>
             <th>Genre |</th>
             <th>Price |</th>
+            <th>Platform</th>
             <th></th>
 
         </tr>
-        <tr th:each = "game : ${games}">
+        <tr th:each="game : ${games}">
             <td th:text="${game.name}"></td>
             <td th:text="${game.releaseYear}"></td>
             <td th:text="${game.developer}"></td>
             <td th:text="${game.rating}"></td>
             <td th:text="${game.genre.name}"></td>
             <td th:text="${game.price}"></td>
+            <td><span th:each="platform : ${game.platforms}" th:text="${platform.name} + ' '"></span></td>
         </tr>
     </table>
 </body>
+
 </html>
