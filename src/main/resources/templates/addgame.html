@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Game</title>
+</head>
+
+<body>
+    <h1>Add Game</h1>
+    <form action="#" th:action="@{/savegame}" th:object="${game}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Release Year: <input type="text" th:field="*{releaseYear}" /></p>
+        <p>Developer: <input type="text" th:field="*{developer}" /></p>
+        <p>Raiting: <input type="text" th:field="*{rating}" /></p>
+        <p>Genre:
+            <select th:field="*{genre}">
+                <option th:each="genre : ${genres}" th:value="${genre.genreid}" th:text="${genre.name}">
+                </option>
+            </select>
+        </p>
+        <p>Price: <input type="text" th:field="*{price}" /> </p>
+        <p>Platform:
+        <div th:each="platform : ${platforms}">
+            <input type="checkbox" th:field="*{platforms}" th:value="${platform.platformid}"/>
+            <label th:for="${#ids.prev('platforms')}" th:text="${platform.name}">Platform</label>
+        </div>
+        </p>
+        <input type="submit" value="submit" /> <input type="reset" value="reset" />
+    </form>
+</body>
+
+</html>

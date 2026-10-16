@@ -33,6 +33,10 @@ public class Genre {
         this.name = name;
     }
 
+    public Long getGenreid() {
+        return genreid;
+    }
+
     public List<Game>getGames(){
         return games;
     }
