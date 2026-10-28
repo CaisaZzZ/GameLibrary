@@ -18,7 +18,7 @@
         <p>Developer: <input type="text" th:field="*{developer}" /></p>
         <p>Raiting: <input type="text" th:field="*{rating}" /></p>
         <p>Genre:
-            <select th:field="*{genre}">
+            <select name ="genreid">
                 <option th:each="genre : ${genres}" th:value="${genre.genreid}" th:text="${genre.name}">
                 </option>
             </select>
@@ -26,8 +26,8 @@
         <p>Price: <input type="text" th:field="*{price}" /> </p>
         <p>Platform:
         <div th:each="platform : ${platforms}">
-            <input type="checkbox" th:field="*{platforms}" th:value="${platform.platformid}"/>
-            <label th:for="${#ids.prev('platforms')}" th:text="${platform.name}">Platform</label>
+            <input type="checkbox" name="gamePlatform" th:value="${platform.platformid}"/>
+            <label th:text="${platform.name}">Platform</label>
         </div>
         </p>
         <input type="submit" value="submit" /> <input type="reset" value="reset" />

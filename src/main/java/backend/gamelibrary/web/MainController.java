@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import backend.gamelibrary.domain.Game;
 import backend.gamelibrary.domain.GameRepository;
@@ -59,11 +59,13 @@ public class MainController {
     }
 
     @PostMapping("/savegame")
-    public String saveGame(@ModelAttribute Game game, @RequestParam Long genreid, @RequestParam Long game_platform) {
+    public String saveGame(@ModelAttribute Game game, @RequestParam Long genreid, @RequestParam ("gamePlatform") List<Long>gamePlatform) {
         Genre  selectedGenre = genreRepository.findById(genreid).get();
-        Platform selectedPlatform = platformRepository.findById(game_platform).get();
+        for (Long platformId : gamePlatform) {
+            Platform selectedPlatform = platformRepository.findById(platformId).get();
+            game.getPlatforms().add(selectedPlatform);
+        }
         game.setGenre(selectedGenre);
-        game.getPlatforms().add(selectedPlatform);
         gameRepository.save(game);
         return"redirect:/library";
     }
