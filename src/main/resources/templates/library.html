@@ -33,6 +33,7 @@
             <td th:text="${game.price}"></td>
             <td><span th:each="platform : ${game.platforms}" th:text="${platform.name} + ' '"></span></td>
 
+            <td><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
             <td><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
         </tr>
     </table>

@@ -52,6 +52,15 @@ public class MainController {
         return "addgame"; //addgame.html
     }
 
+    @GetMapping("/edit/{id}")
+    public String editGame(@PathVariable("id") Long gameId, Model model) {
+        Game game = gameRepository.findById(gameId).get();
+        model.addAttribute("game", game);
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("platforms", platformRepository.findAll());
+        return "addgame";
+    }
+
     @GetMapping("/deletegame/{id}")
     public String deleteGame(@PathVariable("id") Long gameId) {
         gameRepository.deleteById(gameId);
