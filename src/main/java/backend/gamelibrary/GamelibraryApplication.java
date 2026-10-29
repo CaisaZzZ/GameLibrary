@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import backend.gamelibrary.domain.AppUser;
+import backend.gamelibrary.domain.AppUserRepository;
 import backend.gamelibrary.domain.Game;
 import backend.gamelibrary.domain.GameRepository;
 import backend.gamelibrary.domain.Genre;
@@ -20,7 +22,7 @@ public class GamelibraryApplication {
 	}
 
     @Bean
-    public CommandLineRunner demo(GameRepository repository, GenreRepository genreRepository, PlatformRepository platformRepository) {
+    public CommandLineRunner demo(GameRepository repository, GenreRepository genreRepository, PlatformRepository platformRepository, AppUserRepository appUserRepository) {
         return (args) -> {
 
             //test data
@@ -83,6 +85,12 @@ public class GamelibraryApplication {
             repository.save(b);
             repository.save(c);
 
+            //TEST USERS
+            AppUser user1 = new AppUser("TestAdmin", "$2a$10$ikhwWryRsCotLO9JfXLep.Pu4RLqshAreha2n/wsE1lT/m6WBYgXm", "testadmin@email.com", "admin" );
+            AppUser user2 = new AppUser("LoggedInUser", "$2a$10$HKk.3K9/wvrcQ/Y3YlWoWeJjVlWysOLRDDlKsiGXK/FDoGxfZgqGS", "loggedinuser@email.com", "loggedInUser");
+
+            appUserRepository.save(user1);
+            appUserRepository.save(user2);
         };
     }
 }
