@@ -78,4 +78,9 @@ public class MainController {
         gameRepository.save(game);
         return"redirect:/library";
     }
+
+    @GetMapping("/login")
+    public String logIn(){
+        return "login";
+    }
 }

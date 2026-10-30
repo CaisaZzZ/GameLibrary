@@ -88,9 +88,11 @@ public class GamelibraryApplication {
             //TEST USERS
             AppUser user1 = new AppUser("TestAdmin", "$2a$10$ikhwWryRsCotLO9JfXLep.Pu4RLqshAreha2n/wsE1lT/m6WBYgXm", "testadmin@email.com", "admin" );
             AppUser user2 = new AppUser("LoggedInUser", "$2a$10$HKk.3K9/wvrcQ/Y3YlWoWeJjVlWysOLRDDlKsiGXK/FDoGxfZgqGS", "loggedinuser@email.com", "loggedInUser");
+            AppUser visitor = new AppUser();
 
             appUserRepository.save(user1);
             appUserRepository.save(user2);
+            appUserRepository.save(visitor);
         };
     }
 }
