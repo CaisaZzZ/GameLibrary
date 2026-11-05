@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register</title>
+
+</head>
+<body>
+    <a th:href ="@{/frontpage}">Home</a>
+    <a th:href="@{/library}" >Library</a>
+
+    <!--form -->
+    <h1>Add Account Information</h1>
+    <form th:object="${newUserForm}" th:action="@{/saveuser}" action="#" method="post">
+        <div>
+            <label> Username:<input type="text" th:field="*{username}" class="form-control"/></label>
+        </div>
+        <div>
+            <label>Email:<input type ="text" th:field="*{email}" class="form-control"/></label>
+        </div>
+        <div>
+			<label> Password :<input type="password" th:field="*{password}" class="form-control"/></label>
+		</div>
+        <div>
+			<label> Re-type Password: <input type="password" th:field="*{passwordCheck}" class="form-control"/></label>
+			<p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">Password Match Error</p>
+		</div>
+        <input type="submit" value="submit" />
+    </form>
+</body>
+</html>

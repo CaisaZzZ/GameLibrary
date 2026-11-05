@@ -10,7 +10,6 @@
 <body>
     <h1>Add Game</h1>
     <form action="#" th:action="@{/savegame}" th:object="${game}" method="post">
-
         <input type="hidden" th:field="*{id}" />
 
         <p>Name: <input type="text" th:field="*{name}" /></p>

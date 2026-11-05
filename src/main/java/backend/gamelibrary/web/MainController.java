@@ -4,16 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import backend.gamelibrary.domain.AppUserRepository;
 import backend.gamelibrary.domain.Game;
 import backend.gamelibrary.domain.GameRepository;
 import backend.gamelibrary.domain.Genre;
 import backend.gamelibrary.domain.GenreRepository;
+import backend.gamelibrary.domain.NewUserForm;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
 
@@ -23,33 +26,36 @@ public class MainController {
     private final PlatformRepository platformRepository;
     private final GenreRepository genreRepository;
     public GameRepository gameRepository;
+    public AppUserRepository appUserRepository;
 
-    public MainController(GameRepository gameRepository, GenreRepository genreRepository, PlatformRepository platformRepository){
+    public MainController(GameRepository gameRepository, GenreRepository genreRepository,
+            PlatformRepository platformRepository, AppUserRepository appUserRepository) {
         this.gameRepository = gameRepository;
         this.genreRepository = genreRepository;
         this.platformRepository = platformRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     @GetMapping("/frontpage")
     public String mainController() {
-        return "frontpage"; //frontpage.html
+        return "frontpage"; // frontpage.html
     }
 
-    //Game Library site
+    // Game Library site
     @GetMapping("/library")
-    public String libraryController(Model model){
+    public String libraryController(Model model) {
         List<Game> games = (List<Game>) gameRepository.findAll();
         model.addAttribute("games", games);
-        return "library"; //library.html
+        return "library"; // library.html
     }
 
-    //CRUD
+    // CRUD
     @GetMapping("/addgame")
     public String getNewGameForm(Model model) {
         model.addAttribute("game", new Game());
         model.addAttribute("genres", genreRepository.findAll());
         model.addAttribute("platforms", platformRepository.findAll());
-        return "addgame"; //addgame.html
+        return "addgame"; // addgame.html
     }
 
     @GetMapping("/edit/{id}")
@@ -68,19 +74,36 @@ public class MainController {
     }
 
     @PostMapping("/savegame")
-    public String saveGame(@ModelAttribute Game game, @RequestParam Long genreid, @RequestParam ("gamePlatform") List<Long>gamePlatform) {
-        Genre  selectedGenre = genreRepository.findById(genreid).get();
+    public String saveGame(@ModelAttribute Game game, @RequestParam Long genreid,
+            @RequestParam("gamePlatform") List<Long> gamePlatform) {
+        Genre selectedGenre = genreRepository.findById(genreid).get();
         for (Long platformId : gamePlatform) {
             Platform selectedPlatform = platformRepository.findById(platformId).get();
             game.getPlatforms().add(selectedPlatform);
         }
         game.setGenre(selectedGenre);
         gameRepository.save(game);
-        return"redirect:/library";
+        return "redirect:/library";
     }
 
     @GetMapping("/login")
-    public String logIn(){
+    public String logIn() {
         return "login";
+    }
+
+    @GetMapping("/newuser")
+    public String getNewUserForm(Model model) {
+        model.addAttribute("newUserForm", new NewUserForm());
+        return "newuser";
+    }
+
+    @PostMapping("/saveuser")
+    public String saveUser(@Valid @ModelAttribute("newuserform") NewUserForm newUserForm, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            if (newUserForm.getPassword().equals(newUserForm.getPasswordCheck())) {
+                String pwd =newUserForm.getPassword();
+            }
+        }
+        return "redirect:/login";
     }
 }

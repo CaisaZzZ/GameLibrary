@@ -9,12 +9,21 @@
     <a th:href ="@{/frontpage}">Home</a>
     <a th:href="@{/library}" >Library</a>
     <a th:href="@{/login}">Login</a>
-    <a>Log out</a>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
 <h1>Login</h1>
     <form th:action="@{/login}" method="post">
         <div><label> User Name : <input type ="text" name ="username"/></label></div>
         <div><label> Password: <input type="password" name="password"/> </label></div>
         <div><input type="submit" value="Login"/></div>
     </form>
+
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package backend.gamelibrary.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,14 +8,26 @@ import jakarta.persistence.Id;
 
 @Entity
 public class AppUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="id", nullable = false, updatable=false)
     private Long id;
+
+    @Column(name = "username", nullable=false, unique=false)
     private String username;
+
+    @Column(name="password", nullable=false)
     private String passwordHash;
+
+    @Column(name="email", nullable=false)
     private String email;
+
+    @Column(name ="role", nullable = false)
     private String role;
+
+    public AppUser(){
+    }
 
     //Constructors AppUser
     public AppUser(String username, String passwordHash, String email, String role) {
@@ -23,9 +36,6 @@ public class AppUser {
         this.email = email;
         this.role = role;
     }
-
-    public AppUser() {}
-
 
     //GETTERS AND SETTERS
 
@@ -72,6 +82,12 @@ public class AppUser {
     @Override
     public String toString() {
         return "AppUser [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + "]";
+    }
+
+    public static class AppUserRepository {
+
+        public AppUserRepository() {
+        }
     }
 
 }

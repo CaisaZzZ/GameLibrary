@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+<html lang="fi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,10 @@
     <a th:href ="@{/frontpage}">Home</a>
     <a th:href="@{/library}" >Library</a>
     <a th:href="@{/login}">Login</a>
-    <a>Log out</a>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 
     <table>
         <tr>
@@ -34,11 +37,11 @@
             <td th:text="${game.price}"></td>
             <td><span th:each="platform : ${game.platforms}" th:text="${platform.name} + ' '"></span></td>
 
-            <td><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
-            <td><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
+            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
+            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
         </tr>
     </table>
-    <a th:href="@{/addgame}">Add Game</a>
+    <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/addgame}">Add Game</a></td>
 </body>
 
 </html>
