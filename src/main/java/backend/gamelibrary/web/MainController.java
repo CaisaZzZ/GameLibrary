@@ -2,6 +2,7 @@ package backend.gamelibrary.web;
 
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import backend.gamelibrary.domain.AppUser;
 import backend.gamelibrary.domain.AppUserRepository;
 import backend.gamelibrary.domain.Game;
 import backend.gamelibrary.domain.GameRepository;
@@ -19,6 +21,7 @@ import backend.gamelibrary.domain.GenreRepository;
 import backend.gamelibrary.domain.NewUserForm;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class MainController {
@@ -98,11 +101,30 @@ public class MainController {
     }
 
     @PostMapping("/saveuser")
-    public String saveUser(@Valid @ModelAttribute("newuserform") NewUserForm newUserForm, BindingResult bindingResult) {
+    public String saveUser(@Valid @ModelAttribute("newUserForm") NewUserForm newUserForm, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             if (newUserForm.getPassword().equals(newUserForm.getPasswordCheck())) {
-                String pwd =newUserForm.getPassword();
+                String pwd = newUserForm.getPassword();
+                BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+                String hashPwd = bc.encode(pwd);
+
+                AppUser newUser = new AppUser();
+                newUser.setPasswordHash(hashPwd);
+                newUser.setUsername(newUserForm.getUsername());
+                newUser.setEmail(newUserForm.getEmail());
+                newUser.setRole("loggedInUser");
+                if (appUserRepository.findByUsername(newUserForm.getUsername()) == null) {
+                    appUserRepository.save(newUser);
+                } else {
+                    bindingResult.rejectValue("username", "err.username", "Username already exsist");
+                    return "newuser";
+                }
+            } else {
+                bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords does not match");
+                return "newuser";
             }
+        } else {
+            return "newuser";
         }
         return "redirect:/login";
     }

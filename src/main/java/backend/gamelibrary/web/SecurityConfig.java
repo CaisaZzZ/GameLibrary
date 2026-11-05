@@ -16,7 +16,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
                 // OPEN FOR EVERYONE
-                .requestMatchers("/frontpage", "/library", "/login", "/newuser", "/saveuser")
+                .requestMatchers("/frontpage", "/library", "/login", "/newuser", "/saveuser", "/h2-console/**")
                 .permitAll()
 
                 // ADMIN ACCESS
@@ -28,7 +28,14 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/frontpage", true))
 
                 .logout(logout -> logout
-                        .permitAll());
+                        .permitAll())
+
+                // H2-CONSOLE STUFF
+                .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/h2-console/**"))
+
+                .headers(headers -> headers
+                    .frameOptions(frame -> frame.disable()));
         return http.build();
     }
 
