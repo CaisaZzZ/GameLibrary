@@ -22,6 +22,7 @@ import backend.gamelibrary.domain.GenreRepository;
 import backend.gamelibrary.domain.NewUserForm;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
+import backend.gamelibrary.domain.UserGameRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -29,15 +30,18 @@ public class MainController {
 
     private final PlatformRepository platformRepository;
     private final GenreRepository genreRepository;
-    public GameRepository gameRepository;
-    public AppUserRepository appUserRepository;
+    private final GameRepository gameRepository;
+    private final AppUserRepository appUserRepository;
+    private final UserGameRepository userGameRepository;
+
 
     public MainController(GameRepository gameRepository, GenreRepository genreRepository,
-            PlatformRepository platformRepository, AppUserRepository appUserRepository) {
+            PlatformRepository platformRepository, AppUserRepository appUserRepository, UserGameRepository userGameRepository) {
         this.gameRepository = gameRepository;
         this.genreRepository = genreRepository;
         this.platformRepository = platformRepository;
         this.appUserRepository = appUserRepository;
+        this.userGameRepository = userGameRepository;
     }
 
     @GetMapping("/frontpage")

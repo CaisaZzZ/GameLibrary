@@ -13,11 +13,21 @@ import backend.gamelibrary.domain.Genre;
 import backend.gamelibrary.domain.GenreRepository;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
+import backend.gamelibrary.domain.Status;
+import backend.gamelibrary.domain.StatusRepository;
+
+
 
 @SpringBootApplication
 public class GamelibraryApplication {
 
-	public static void main(String[] args) {
+	private final StatusRepository statusRepository;
+
+    GamelibraryApplication(StatusRepository statusRepository) {
+        this.statusRepository = statusRepository;
+    }
+
+    public static void main(String[] args) {
 		SpringApplication.run(GamelibraryApplication.class, args);
 	}
 
@@ -27,7 +37,6 @@ public class GamelibraryApplication {
 
             //test data
             //GENRE
-
             Genre RPG = new Genre("RPG");
             Genre Sandbox = new Genre ("Sandbox");
             Genre FPS = new Genre ("FPS");
@@ -37,7 +46,6 @@ public class GamelibraryApplication {
             genreRepository.save(FPS);
 
             //PLATFORM
-
             Platform PC = new Platform("PC");
             Platform PS5 = new Platform("PS5");
             Platform XBOX = new Platform("XBOX");
@@ -92,6 +100,17 @@ public class GamelibraryApplication {
 
             appUserRepository.save(user1);
             appUserRepository.save(user2);
+
+            //GAME STATUS
+            Status status1 = new Status("Completed");
+            Status status2 = new Status("Wishlist");
+            Status status3 = new Status("Currently playing");
+            Status status4 = new Status("Dropped");
+
+            statusRepository.save(status1);
+            statusRepository.save(status2);
+            statusRepository.save(status3);
+            statusRepository.save(status4);
         };
     }
 }
