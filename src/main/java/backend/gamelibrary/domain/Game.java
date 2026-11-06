@@ -48,8 +48,8 @@ public class Game {
     //Consructor
     public Game(String name, String releaseYear, String developer, Double rating, Double price) {
         this.name = name;
-        this. releaseYear = releaseYear;
-        this. developer = developer;
+        this.releaseYear = releaseYear;
+        this.developer = developer;
         this.rating = rating;
         this.price = price;
     }
