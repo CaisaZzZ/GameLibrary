@@ -2,6 +2,7 @@ package backend.gamelibrary.web;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,6 +95,14 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/userprofile")
+    public String personalProfile(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        AppUser user = appUserRepository.findByUsername(username);
+        model.addAttribute("user", user);
+        return "userprofile";
+    }
+
     @GetMapping("/newuser")
     public String getNewUserForm(Model model) {
         model.addAttribute("newUserForm", new NewUserForm());
@@ -128,4 +137,5 @@ public class MainController {
         }
         return "redirect:/login";
     }
+
 }

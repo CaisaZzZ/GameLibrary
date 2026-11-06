@@ -25,10 +25,10 @@ public class SecurityConfig {
 
                 .formLogin(formlogin -> formlogin
                         .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/frontpage", true))
+                        .defaultSuccessUrl("/userprofile", true))
 
                 .logout(logout -> logout
-                        .permitAll())
+                        .logoutSuccessUrl("/frontpage"))
 
                 // H2-CONSOLE STUFF
                 .csrf(csrf -> csrf

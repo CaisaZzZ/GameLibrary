@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+</head>
+<body>
+    <a th:href ="@{/frontpage}">Home</a>
+    <a th:href="@{/library}" >Library</a>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+    <h1>My Profile</h1>
+    <h2>Username: <span th:text="${user.username}"></span></h2>
+    <h2>Games in my Library: </h2>
+
+    <h1>My Library</h1>
+    <h2>Completed Games</h2>
+
+    <h2>Wishlist</h2>
+
+    <h2>Dropped Games</h2>
+
+</body>
+</html>
