@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Library</title>
+</head>
+
+<body>
+    <a th:href ="@{/frontpage}">Home</a>
+    <a th:href="@{/library}" >Library</a>
+
+    <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
+    <a th:href="@{/login}">Login</a>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
+    <table>
+        <tr>
+            <th>Name |</th>
+            <th>Release Year |</th>
+            <th>Developer |</th>
+            <th>User Rating |</th>
+            <th>Genre |</th>
+            <th>Price |</th>
+            <th>Platform</th>
+            <th></th>
+
+        </tr>
+        <tr th:each="game : ${games}">
+            <td th:text="${game.name}"></td>
+            <td th:text="${game.releaseYear}"></td>
+            <td th:text="${game.developer}"></td>
+            <td th:text="${game.rating}"></td>
+            <td th:text="${game.genre.name}"></td>
+            <td th:text="${game.price}"></td>
+            <td><span th:each="platform : ${game.platforms}" th:text="${platform.name} + ' '"></span></td>
+
+            <td sec:authorize="isAuthenticated()">
+                <form th:action="@{/addtouserlibrary}" method="post">
+                    <input type="hidden" name="gameId" th:value="${game.id}">
+                    <select name="statusId" requred>
+                        <option value="">Choose Status</option>
+
+                        <option th:each="status : ${statuses}"
+                                th:value="${status.id}"
+                                th:text="${status.name}">
+                        </option>
+                    </select>
+
+                    <button type="submit">Add to My Library</button>
+
+                </form>
+            </td>
+
+            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
+            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
+        </tr>
+    </table>
+    <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/addgame}">Add Game</a></td>
+</body>
+</html>
