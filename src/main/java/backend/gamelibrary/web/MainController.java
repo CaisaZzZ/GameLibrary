@@ -37,7 +37,6 @@ public class MainController {
     private final GameRepository gameRepository;
     private final AppUserRepository appUserRepository;
     private final UserGameRepository userGameRepository;
-    private final StatusRepository statusRepository;
 
 
     public MainController(GameRepository gameRepository, GenreRepository genreRepository,

@@ -13,11 +13,13 @@
     <a th:href="@{/login}">Login</a>
 
     <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
-    <a th:href="@{/login}">Login</a>
 
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out" />
     </form>
+
+    <h2>Game Library</h2>
+    <input type="text" id="gameSearch" placeholder="Search games by name...">
 
     <table>
         <tr>
@@ -31,7 +33,7 @@
             <th></th>
 
         </tr>
-        <tr th:each="game : ${games}">
+        <tr th:each="game : ${games}" th:attr="data-game-id=${game.id}">
             <td th:text="${game.name}"></td>
             <td th:text="${game.releaseYear}"></td>
             <td th:text="${game.developer}"></td>
@@ -57,6 +59,30 @@
         </tr>
     </table>
     <td sec:authorize="hasAuthority('admin')"><a th:href="@{/addgame}">Add Game</a></td>
+
+    <script>
+        fetch("/api/games")
+        .then(response => response.json())
+        .then(games => {
+
+            const searchInput = document.getElementById("gameSearch");
+            const gameRows = document.querySelectorAll("tr[data-game-id]");
+
+            searchInput.addEventListener("input", function () {
+                const searchTerm = this.value.toLowerCase();
+
+                gameRows.forEach(row => {
+                    const gameId = row.dataset.gameId;
+
+                    const game = games.find(game => game.id == gameId);
+
+                    const gameName = game.name.toLowerCase();
+
+                    row.style.display = gameName.includes(searchTerm) ? "" : "none";
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

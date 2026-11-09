@@ -1,22 +1,79 @@
 <!DOCTYPE html>
 <html lang="fi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frontpage</title>
 </head>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #151923;
+        color: white;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background-color: #252D3D;
+    }
+
+    .navbar h2 {
+        margin: 0;
+        color: white;
+    }
+
+    .navbar a {
+        color: #D1D5DB;
+        text-decoration: none;
+        margin-left: 25px;
+        font-size: 16px;
+    }
+
+    .navbar a:hover {
+        color: white;
+    }
+
+    .nav-links form {
+        margin: 0;
+    }
+
+    .nav-links input[type="submit"] {
+        background: none;
+        border: none;
+        color: #D1D5DB;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .nav-links input[type="submit"]:hover {
+        color: white;
+    }
+</style>
+
 <body>
-    <h1>Your Game Library</h1>
+    <nav class="navbar">
+        <h2>Game Library</h2>
 
-    <a th:href ="@{/frontpage}">Home</a>
-    <a th:href="@{/library}" >Library</a>
-    <a th:href="@{/login}">Login</a>
-    <a th:href="@{/newuser}">Create an account</a>
+        <div class="nav-links">
+            <a th:href="@{/frontpage}">Home</a>
+            <a th:href="@{/library}">Library</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
 
-    <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/newuser}">Create an account</a>
 
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+            <a sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out" />
+            </a>
+        </div>
+    </nav>
 </body>
+
 </html>
