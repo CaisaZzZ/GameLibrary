@@ -31,6 +31,7 @@ import jakarta.validation.Valid;
 @Controller
 public class MainController {
 
+    private final StatusRepository statusRepository;
     private final PlatformRepository platformRepository;
     private final GenreRepository genreRepository;
     private final GameRepository gameRepository;

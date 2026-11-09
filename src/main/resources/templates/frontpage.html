@@ -13,6 +13,8 @@
     <a th:href="@{/login}">Login</a>
     <a th:href="@{/newuser}">Create an account</a>
 
+    <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
+
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
