@@ -3,6 +3,8 @@ package backend.gamelibrary.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +20,7 @@ public class Platform {
     private String name;
 
     //table link
+    @JsonIgnore
     @ManyToMany(mappedBy = "platforms")
     private Set<Game> games = new HashSet<>();
 

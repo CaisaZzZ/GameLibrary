@@ -8,12 +8,15 @@
 </head>
 
 <body>
-    <a th:href ="@{/frontpage}">Home</a>
-    <a th:href="@{/library}" >Library</a>
+    <a th:href="@{/frontpage}">Home</a>
+    <a th:href="@{/library}">Library</a>
+    <a th:href="@{/login}">Login</a>
+
+    <a sec:authorize="isAuthenticated()" th:href="@{/userprofile}">My Profile</a>
     <a th:href="@{/login}">Login</a>
 
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+        <input type="submit" value="Sign Out" />
     </form>
 
     <table>
@@ -37,10 +40,23 @@
             <td th:text="${game.price}"></td>
             <td><span th:each="platform : ${game.platforms}" th:text="${platform.name} + ' '"></span></td>
 
-            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
-            <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
+            <td sec:authorize="isAuthenticated()">
+                <form th:action="@{/addtouserlibrary}" method="post">
+                    <input type="hidden" name="gameId" th:value="${game.id}" />
+                    <select name="statusId">
+                        <option value="">Choose Status</option>
+                        <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.name}">
+                        </option>
+                    </select>
+                    <button type="submit">Add to My Library</button>
+                </form>
+            </td>
+
+            <td sec:authorize="hasAuthority('admin')"><a th:href="@{/edit/{id}(id=${game.id})}">Edit</a></td>
+            <td sec:authorize="hasAuthority('admin')"><a th:href="@{/deletegame/{id}(id=${game.id})}">Delete</a></td>
         </tr>
     </table>
-    <td sec:authorize = "hasAuthority('admin')"><a th:href="@{/addgame}">Add Game</a></td>
+    <td sec:authorize="hasAuthority('admin')"><a th:href="@{/addgame}">Add Game</a></td>
 </body>
+
 </html>

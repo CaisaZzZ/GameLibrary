@@ -22,6 +22,9 @@ import backend.gamelibrary.domain.GenreRepository;
 import backend.gamelibrary.domain.NewUserForm;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
+import backend.gamelibrary.domain.Status;
+import backend.gamelibrary.domain.StatusRepository;
+import backend.gamelibrary.domain.UserGame;
 import backend.gamelibrary.domain.UserGameRepository;
 import jakarta.validation.Valid;
 
@@ -33,15 +36,17 @@ public class MainController {
     private final GameRepository gameRepository;
     private final AppUserRepository appUserRepository;
     private final UserGameRepository userGameRepository;
+    private final StatusRepository statusRepository;
 
 
     public MainController(GameRepository gameRepository, GenreRepository genreRepository,
-            PlatformRepository platformRepository, AppUserRepository appUserRepository, UserGameRepository userGameRepository) {
+            PlatformRepository platformRepository, AppUserRepository appUserRepository, UserGameRepository userGameRepository, StatusRepository statusRepository) {
         this.gameRepository = gameRepository;
         this.genreRepository = genreRepository;
         this.platformRepository = platformRepository;
         this.appUserRepository = appUserRepository;
         this.userGameRepository = userGameRepository;
+        this.statusRepository = statusRepository;
     }
 
     @GetMapping("/frontpage")
@@ -54,6 +59,7 @@ public class MainController {
     public String libraryController(Model model) {
         List<Game> games = (List<Game>) gameRepository.findAll();
         model.addAttribute("games", games);
+        model.addAttribute("statuses", statusRepository.findAll());
         return "library"; // library.html
     }
 
@@ -103,7 +109,15 @@ public class MainController {
     public String personalProfile(Authentication authentication, Model model) {
         String username = authentication.getName();
         AppUser user = appUserRepository.findByUsername(username);
+        List<UserGame> completedGames = userGameRepository.findByUserUsernameAndStatusName(username, "Completed");
+        List<UserGame> wishlistGames = userGameRepository.findByUserUsernameAndStatusName(username, "Wishlist");
+        List<UserGame> playingGames = userGameRepository.findByUserUsernameAndStatusName(username, "Currently playing");
+        List<UserGame> droppedGames = userGameRepository.findByUserUsernameAndStatusName(username, "Dropped");
+        model.addAttribute("droppedGames", droppedGames);
         model.addAttribute("user", user);
+        model.addAttribute("completedGames", completedGames);
+        model.addAttribute("wishlistGames", wishlistGames);
+        model.addAttribute("playingGames", playingGames);
         return "userprofile";
     }
 
@@ -142,4 +156,18 @@ public class MainController {
         return "redirect:/login";
     }
 
+    @PostMapping("/addtouserlibrary")
+    public String addToUserLibrary(@RequestParam Long gameId, @RequestParam Long statusId, Authentication authentication) {
+        String username = authentication.getName();
+        AppUser user = appUserRepository.findByUsername(username);
+        Game game = gameRepository.findById(gameId).get();
+        Status status = statusRepository.findById(statusId).get();
+
+        if(!userGameRepository.existsByUserUsernameAndGameId(username, gameId)) {
+
+            UserGame userGame = new UserGame(user, game, status);
+            userGameRepository.save(userGame);
+        }
+        return "redirect:/library";
+    }
 }

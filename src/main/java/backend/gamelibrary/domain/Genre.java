@@ -2,6 +2,8 @@ package backend.gamelibrary.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Genre {
     private String name;
 
     //table link
+    @JsonIgnore
     @OneToMany(mappedBy="genre")
     private List<Game> games;
 

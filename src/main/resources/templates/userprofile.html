@@ -14,13 +14,33 @@
     <h1>My Profile</h1>
     <h2>Username: <span th:text="${user.username}"></span></h2>
     <h2>Games in my Library: </h2>
-
     <h1>My Library</h1>
-    <h2>Completed Games</h2>
 
+    <h2>Currently Playing</h2>
+    <table>
+        <tr th:each="userGame : ${playingGames}">
+            <td th:text="${userGame.game.name}"></td>
+        </tr>
+    </table>
+
+    <h2>Completed Games</h2>
+    <table>
+        <tr th:each="userGame : ${completedGames}">
+            <td th:text="${userGame.game.name}"></td>
+        </tr>
+    </table>
     <h2>Wishlist</h2>
+    <table>
+        <tr th:each="userGame : ${wishlistGames}">
+            <td th:text="${userGame.game.name}"></td>
+        </tr>
+    </table>
 
     <h2>Dropped Games</h2>
-
+    <table>
+        <tr th:each="userGame : ${droppedGames}">
+            <td th:text="${userGame.game.name}"></td>
+        </tr>
+    </table>
 </body>
 </html>
