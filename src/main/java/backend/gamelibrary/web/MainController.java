@@ -22,21 +22,22 @@ import backend.gamelibrary.domain.GenreRepository;
 import backend.gamelibrary.domain.NewUserForm;
 import backend.gamelibrary.domain.Platform;
 import backend.gamelibrary.domain.PlatformRepository;
-import backend.gamelibrary.domain.UserGame;
-import backend.gamelibrary.domain.UserGameRepository;
 import backend.gamelibrary.domain.Status;
 import backend.gamelibrary.domain.StatusRepository;
+import backend.gamelibrary.domain.UserGame;
+import backend.gamelibrary.domain.UserGameRepository;
 import jakarta.validation.Valid;
 
 @Controller
 public class MainController {
 
+    private final StatusRepository statusRepository;
     private final PlatformRepository platformRepository;
     private final GenreRepository genreRepository;
     private final GameRepository gameRepository;
     private final AppUserRepository appUserRepository;
     private final UserGameRepository userGameRepository;
-    private final StatusRepository statusRepository;
+
 
     public MainController(GameRepository gameRepository, GenreRepository genreRepository,
             PlatformRepository platformRepository, AppUserRepository appUserRepository, UserGameRepository userGameRepository, StatusRepository statusRepository) {
@@ -46,7 +47,6 @@ public class MainController {
         this.appUserRepository = appUserRepository;
         this.userGameRepository = userGameRepository;
         this.statusRepository = statusRepository;
-
     }
 
     @GetMapping("/frontpage")
@@ -59,7 +59,6 @@ public class MainController {
     public String libraryController(Model model) {
         List<Game> games = (List<Game>) gameRepository.findAll();
         model.addAttribute("games", games);
-        model.addAttribute("statuses", statusRepository.findAll());
         return "library"; // library.html
     }
 
